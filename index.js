@@ -2,24 +2,27 @@ var map, pakman
 function setup() {
     createCanvas(windowWidth, windowHeight)    
 
-    map = new Map()
-    pakman = new Pakman(10, 10)
+    map = new Map(16)
+    pakman = new Pakman(16, 16, 10)
 }
 
 function draw() {
     background(255)
     noStroke()
 
+    translate(
+        (windowWidth / 2) - pakman.x + (pakman.size),
+        (windowHeight / 2) - pakman.y + (pakman.size)
+    )
+
     fill(0)
     map.draw()
     pakman.draw()
 
 
-    pakman.move()
+    pakman.move(map)
 }
 
 function keyPressed() {
-    if (keyCode === RIGHT_ARROW) {
-        pakman.direction = {x: 1, y: 0}
-    }
+    pakman.handleInputs(keyCode)
 }
