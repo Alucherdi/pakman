@@ -27,6 +27,12 @@ function draw() {
     pakman.update(map)
 }
 
-function keyPressed() {
-    pakman.handleInputs(keyCode)
+
+function touchStarted() {
+    TouchHandler.touchStarted()
+}
+
+function touchEnded() {
+    pakman.nextDirection = TouchHandler.touchEnded()
+    console.log(pakman.nextDirection)
 }
