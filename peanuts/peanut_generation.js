@@ -1,5 +1,0 @@
-class PeanutGeneration {
-    generate(lvl) {
-        
-    }
-}

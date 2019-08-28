@@ -33,6 +33,7 @@ class Pakman {
 
     update(map) {
         this.handleStates(map)
+        this.eatPeanuts()
     }
 
     handleStates(map) {
@@ -56,6 +57,9 @@ class Pakman {
             case 2: { // bridge collision
                 this.state = 3
                 map.gen()
+
+                peanuts.peanuts = []
+                peanuts.generate()
                 console.log(map.rawMap)
                 break
             }
@@ -124,13 +128,40 @@ class Pakman {
             ) {
                 console.log(bridge.type)
                 if (bridge.type == "out") this.state = 2
-                if (bridge.type == "in") this.state = 0
+                if (bridge.type == "in") {
+                    this.state = 0
+                    this.nextDirection = {x: 0, y: 1}
+                }
             }
         }
     }
 
+    eatPeanuts() {
+        for (var i = 0; i < peanuts.peanuts.length; i++) {
+            var peanut = peanuts.peanuts[i]
+            if (
+                this.x < peanut.x + peanut.size &&
+                this.x + this.size > peanut.x &&
+                this.y < peanut.y + peanut.size &&
+                this.y + this.size > peanut.y
+            ) {
+                if (
+                    peanut.type == 0 ||
+                    peanut.type == 1 ||
+                    peanut.type == 2
+                ) peanuts.peanuts.splice(i, 1)
+                else {
+                    this.die()
+                }
+            }
+        }
+    }
+
+    die() {
+        this.state = 1
+    }
+
     draw(pakmanSprites) {
-        //ellipse(this.x + map.tileSize / 2, this.y + map.tileSize / 2, this.size)
         image(
             pakmanSprites,
             this.x, this.y,

@@ -1,9 +1,10 @@
-var map, pakman, wallSprites, pakmanSprites
+var map, pakman, wallSprites, pakmanSprites, peanuts
 function setup() {
     createCanvas(windowWidth, windowHeight)    
 
     map = new Map(32)
     pakman = new Pakman(32, 32, 32)
+    peanuts = new PeanutGenerator()
 }
 
 function preload() {
@@ -23,8 +24,10 @@ function draw() {
     fill(0)
     map.draw(wallSprites)
     pakman.draw(pakmanSprites)
+    peanuts.draw()
 
     pakman.update(map)
+    peanuts.update(map)
 }
 
 
@@ -34,5 +37,4 @@ function touchStarted() {
 
 function touchEnded() {
     pakman.nextDirection = TouchHandler.touchEnded()
-    console.log(pakman.nextDirection)
 }

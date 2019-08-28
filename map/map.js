@@ -20,7 +20,7 @@ class Map {
         this.tiles = []
         this.dots = []
         this.bridges = []
-        this.rawMap = this.rb.genMaze(21, 9)
+        this.rawMap = this.rb.genMaze(17, 21)
 
         for (var y = 0; y < this.rawMap.length; y++) {
             for (var x = 0; x < this.rawMap[y].length; x++) {
