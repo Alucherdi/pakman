@@ -5,6 +5,8 @@ function setup() {
     map = new Map(32)
     pakman = new Pakman(32, 32, 32)
     peanuts = new PeanutGenerator()
+
+    console.log((windowWidth / 2) - ((7 * map.tileSize) / 2))
 }
 
 function preload() {
@@ -16,8 +18,10 @@ function draw() {
     background(255)
     noStroke()
     
+    rect(windowWidth / 2, windowHeight / 2 - 10, 1, 100)
+    
     translate(
-        (windowWidth / 2) - pakman.x + (pakman.size),
+        (windowWidth / 2) - ((7 * map.tileSize) / 2),
         (windowHeight / 2) - pakman.y + (pakman.size)
     )
 

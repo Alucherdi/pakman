@@ -73,8 +73,7 @@ class Map {
                 }
             }
         }
-
-        this.genReference.x = (this.lastExit - 1) * this.tileSize
+        
         this.genReference.y += 20 * this.tileSize
 
         this.actualLevel++
