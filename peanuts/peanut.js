@@ -1,8 +1,9 @@
 class Peanut {
-    constructor(x, y, speed, type) {
+    constructor(x, y, speed, type, id) {
         this.x = x
         this.y = y
         this.size = 32
+        this.id = id
 
         //0: peanut, 1: lemon, 2: chili, 3: peanutLemon, 4: peanutChili
         this.type = type
@@ -15,19 +16,21 @@ class Peanut {
         this.timeBeforeTypeChange = 300
         this.timeReference = this.timeBeforeTypeChange
 
+        this.anim = 1
+
         this.changeDirection(map)
     }
     
-    update(map, peanuts) {
-        this.eatOthers(peanuts)
+    update(map, peanuts, powerUps) {
+        this.eatOthers(powerUps)
         this.changeType()
 
-        if (this.type != 1 && this.type != 2) {
-            this.move(map)
-            if (this.x % map.tileSize == 0 &&
-                this.y % map.tileSize == 0) {
-                this.direction = this.nextDirection
-            }
+        this.anim = Math.round(this.anim) == 4 ? 1 : this.anim + 0.1
+        
+        this.move(map)
+        if (this.x % map.tileSize == 0 &&
+            this.y % map.tileSize == 0) {
+            this.direction = this.nextDirection
         }
     }
 
@@ -110,8 +113,6 @@ class Peanut {
         if (this.type == 3 || this.type == 4) {
             this.timeReference--
 
-            console.log(this.timeReference)
-
             if (this.timeReference <= 0) {
                 this.type = 0
                 this.timeReference = this.timeBeforeTypeChange
@@ -119,34 +120,49 @@ class Peanut {
         }
     }
 
-    eatOthers(peanuts) {
-        for (var i = 0; i < peanuts.length; i++) {
-            var peanut = peanuts[i]
+    eatOthers(powerUps) {
+        for (var i = 0; i < powerUps.length; i++) {
+            var powerUp = powerUps[i]
             
             if (
-                this.x + this.size > peanut.x &&
-                this.x < peanut.x + peanut.size &&
-                this.y + this.size > peanut.y &&
-                this.y < peanut.y + peanut.size &&
-                this.type != peanut.type
+                this.x + this.size > powerUp.x &&
+                this.x < powerUp.x + powerUp.size &&
+                this.y + this.size > powerUp.y &&
+                this.y < powerUp.y + powerUp.size &&
+                this.type != powerUp.type
             ) {
-                if (this.type == 0 && peanut.type == 1) {
+                if (this.type == 0 && powerUp.type == 1) {
                     this.type = 3
-                    peanuts.splice(i, 1)
+                    powerUps.splice(i, 1)
                 }
 
-                if (this.type == 0 && peanut.type == 2) {
+                if (this.type == 0 && powerUp.type == 2) {
                     this.type = 4
-                    peanuts.splice(i, 1)
+                    powerUps.splice(i, 1)
                 }
             }
         }
     }
     
-    draw() {
-        rect(this.x, this.y, this.size, this.size)
-        fill(255)
-        text(this.type, this.x + 10, this.y + 10)
-        fill(0)
+    draw(pakmanSprites) {
+        if (this.type == 3) {
+            fill(182, 252, 149)
+            rect(this.x, this.y, this.size, this.size)
+            fill(0)
+        }
+
+        if (this.type == 4) {
+            fill(255, 150, 112)
+            rect(this.x, this.y, this.size, this.size)
+            fill(0)
+        }
+        
+        image(
+            pakmanSprites,
+            this.x, this.y,
+            this.size, this.size,
+            Math.round(this.anim) * 32, this.id * 32,
+            this.size, this.size
+        )
     }
 }

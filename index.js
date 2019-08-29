@@ -9,7 +9,7 @@ function setup() {
 
 function preload() {
     wallSprites = loadImage("assets/tiles.png")
-    pakmanSprites = loadImage("assets/kk.png")
+    pakmanSprites = loadImage("assets/newsprite.png")
 }
 
 function draw() {
@@ -24,12 +24,17 @@ function draw() {
     fill(0)
     map.draw(wallSprites)
     pakman.draw(pakmanSprites)
-    peanuts.draw()
+    peanuts.draw(pakmanSprites)
 
     pakman.update(map)
     peanuts.update(map)
+
+    
 }
 
+function keyPressed() {
+    pakman.handleInputs(keyCode)
+}
 
 function touchStarted() {
     TouchHandler.touchStarted()

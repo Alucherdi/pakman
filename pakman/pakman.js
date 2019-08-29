@@ -34,6 +34,7 @@ class Pakman {
     update(map) {
         this.handleStates(map)
         this.eatPeanuts()
+        this.eatPowerUps()
     }
 
     handleStates(map) {
@@ -60,11 +61,10 @@ class Pakman {
 
                 peanuts.peanuts = []
                 peanuts.generate()
-                console.log(map.rawMap)
                 break
             }
 
-            case 3: {                
+            case 3: {
                 this.moveToNextLevel(map)
 
                 if (this.x % map.tileSize == 0 &&
@@ -126,12 +126,31 @@ class Pakman {
                 this.x == bridge.x &&
                 this.y == bridge.y
             ) {
-                console.log(bridge.type)
-                if (bridge.type == "out") this.state = 2
+                if (bridge.type == "out") {
+                    if (bridge.blocked) {
+                        this.nextDirection = {x: 0, y: -1}
+                    } else {
+                        this.state = 2
+                    }
+                }
                 if (bridge.type == "in") {
                     this.state = 0
                     this.nextDirection = {x: 0, y: 1}
                 }
+            }
+        }
+    }
+
+    eatPowerUps() {
+        for (var i = 0; i < peanuts.powerUps.length; i++) {
+            var powerUp = peanuts.powerUps[i]
+            if (
+                this.x < powerUp.x + powerUp.size &&
+                this.x + this.size > powerUp.x &&
+                this.y < powerUp.y + powerUp.size &&
+                this.y + this.size > powerUp.y
+            ) {
+                peanuts.powerUps.splice(i, 1)
             }
         }
     }
@@ -145,11 +164,7 @@ class Pakman {
                 this.y < peanut.y + peanut.size &&
                 this.y + this.size > peanut.y
             ) {
-                if (
-                    peanut.type == 0 ||
-                    peanut.type == 1 ||
-                    peanut.type == 2
-                ) peanuts.peanuts.splice(i, 1)
+                if (peanut.type == 0) peanuts.peanuts.splice(i, 1)
                 else {
                     this.die()
                 }
@@ -166,7 +181,7 @@ class Pakman {
             pakmanSprites,
             this.x, this.y,
             this.size, this.size,
-            0, 128,
+            32, 128,
             this.size, this.size
         )
     }

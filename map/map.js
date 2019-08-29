@@ -20,7 +20,7 @@ class Map {
         this.tiles = []
         this.dots = []
         this.bridges = []
-        this.rawMap = this.rb.genMaze(17, 21)
+        this.rawMap = this.rb.genMaze(7, 23)
 
         for (var y = 0; y < this.rawMap.length; y++) {
             for (var x = 0; x < this.rawMap[y].length; x++) {
@@ -44,7 +44,7 @@ class Map {
                     this.dots.push({
                         x: this.genReference.x + (x * this.tileSize),
                         y: this.genReference.y + (y * this.tileSize),
-                        size: this.tileSize / 4
+                        size: this.tileSize / 8
                     })
                 }
             }
@@ -64,6 +64,7 @@ class Map {
                         this.bridges.push({
                             y: this.genReference.y + (y * this.tileSize),
                             x: this.genReference.x + this.lastExit * this.tileSize,
+                            blocked: true,
                             type: "out"
                         })
                         this.tiles.splice(exitIndex, 1)
@@ -77,8 +78,6 @@ class Map {
         this.genReference.y += 20 * this.tileSize
 
         this.actualLevel++
-
-        console.log(this.bridges)
     }
 
     draw(spriteSheet) {
@@ -101,7 +100,11 @@ class Map {
         }
 
         for (var bridge of this.bridges) {
-            fill(100, 100, 200)
+            if (bridge.blocked) {
+                fill(255, 0, 0)
+            } else {
+                fill(100, 100, 200)
+            }
             rect(bridge.x, bridge.y, tile.size, tile.size)
             fill(0)
         }
