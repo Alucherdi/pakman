@@ -7,6 +7,7 @@ class Map {
 
         this.tiles   = []
         this.dots    = []
+        this.floor   = []
         this.bridges = []
 
         this.lastExit = 0
@@ -17,10 +18,11 @@ class Map {
     }
 
     gen() {
+        this.floor = []
         this.tiles = []
         this.dots = []
         this.bridges = []
-        this.rawMap = this.rb.genMaze(7, 23)
+        this.rawMap = this.rb.genMaze(9, 23)
 
         for (var y = 0; y < this.rawMap.length; y++) {
             for (var x = 0; x < this.rawMap[y].length; x++) {
@@ -73,6 +75,8 @@ class Map {
                 }
             }
         }
+
+        this.floor = [...this.dots]
         
         this.genReference.y += 20 * this.tileSize
 
@@ -80,7 +84,17 @@ class Map {
     }
 
     draw(spriteSheet) {
-        for (var dot of this.dots) {
+        for (var flor of this.floor) {
+            image(
+                pakmanSprites,
+                flor.x, flor.y,
+                map.tileSize, map.tileSize,
+                0, 0,
+                map.tileSize, map.tileSize
+            )
+        }
+        
+        for (var dot of this.dots) {            
             rect(
                 dot.x + (this.tileSize / 2) - (dot.size / 2),
                 dot.y + (this.tileSize / 2) - (dot.size / 2),
