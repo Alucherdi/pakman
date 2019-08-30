@@ -9,7 +9,7 @@ function setup() {
 
 function preload() {
     wallSprites = loadImage("assets/tiles.png")
-    pakmanSprites = loadImage("assets/newsprite.png")
+    pakmanSprites = loadImage("assets/base_spritesheet.png")
 }
 
 function draw() {
@@ -24,14 +24,12 @@ function draw() {
     )
 
     fill(0)
-    map.draw(wallSprites)
-    pakman.draw(pakmanSprites)
-    peanuts.draw(pakmanSprites)
-
     pakman.update(map)
     peanuts.update(map)
-
     
+    map.draw(wallSprites)
+    pakman.draw(pakmanSprites)
+    peanuts.draw(pakmanSprites)    
 }
 
 function keyPressed() {

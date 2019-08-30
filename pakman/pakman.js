@@ -6,35 +6,52 @@ class Pakman {
 
         this.nextDirection = {x: 0, y: 0}
         this.direction = {x: 0, y: 0}
+        this.animDirection = 0
 
         this.speed = 2
         this.levelTransitionSpeed = 8
+
+        this.anim = 0
 
         this.state = 0
     }
 
     handleInputs(keyCode) {
-        if (keyCode === RIGHT_ARROW) {
-            this.nextDirection = {x: 1, y: 0}
-        }
-    
-        if (keyCode === LEFT_ARROW) {
-            this.nextDirection = {x: -1, y: 0}
-        }
-    
-        if (keyCode === UP_ARROW) {
-            this.nextDirection = {x: 0, y: -1}
-        }
-    
-        if (keyCode === DOWN_ARROW) {
-            this.nextDirection = {x: 0, y: 1}
+        if (this.state != 1) {
+            if (keyCode === RIGHT_ARROW) {
+                this.nextDirection = {x: 1, y: 0}
+                this.animDirection = 0
+            }
+        
+            if (keyCode === LEFT_ARROW) {
+                this.nextDirection = {x: -1, y: 0}
+                this.animDirection = 3
+            }
+        
+            if (keyCode === UP_ARROW) {
+                this.nextDirection = {x: 0, y: -1}
+                this.animDirection = 2
+            }
+        
+            if (keyCode === DOWN_ARROW) {
+                this.nextDirection = {x: 0, y: 1}
+                this.animDirection = 1
+            }
         }
     }
 
     update(map) {
-        this.handleStates(map)
-        this.eatPeanuts()
-        this.eatPowerUps()
+        if (Math.floor(this.anim) != 4)
+            this.anim += 0.1
+        else if (this.state != 1) {
+            this.anim = 0
+        }
+        
+        if (this.state != 1) {
+            this.handleStates(map)
+            this.eatPeanuts()
+            this.eatPowerUps()
+        }
     }
 
     handleStates(map) {
@@ -173,6 +190,8 @@ class Pakman {
     }
 
     die() {
+        this.anim = 0
+        this.animDirection = 4
         this.state = 1
     }
 
@@ -181,7 +200,7 @@ class Pakman {
             pakmanSprites,
             this.x, this.y,
             this.size, this.size,
-            32, 128,
+            Math.floor(this.anim) * 32, 128 + (this.animDirection * 32),
             this.size, this.size
         )
     }

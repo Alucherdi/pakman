@@ -16,7 +16,7 @@ class Map {
 
         this.gen()
     }
-
+    
     gen() {
         this.floor = []
         this.tiles = []
@@ -67,6 +67,7 @@ class Map {
                             y: this.genReference.y + (y * this.tileSize),
                             x: this.genReference.x + this.lastExit * this.tileSize,
                             blocked: true,
+                            anim: 0,
                             type: "out"
                         })
                         this.tiles.splice(exitIndex, 1)
@@ -95,10 +96,13 @@ class Map {
         }
         
         for (var dot of this.dots) {            
-            rect(
-                dot.x + (this.tileSize / 2) - (dot.size / 2),
-                dot.y + (this.tileSize / 2) - (dot.size / 2),
-                dot.size, dot.size)
+            image(
+                pakmanSprites,
+                dot.x, dot.y,
+                map.tileSize, map.tileSize,
+                0, 32,
+                map.tileSize, map.tileSize
+            )
         }
         
         for (var tile of this.tiles) {
@@ -113,13 +117,18 @@ class Map {
         }
 
         for (var bridge of this.bridges) {
-            if (bridge.blocked) {
-                fill(255, 0, 0)
-            } else {
-                fill(100, 100, 200)
+            if (!bridge.blocked) {
+                if (Math.floor(bridge.anim) != 4)
+                    bridge.anim += 0.1
             }
-            rect(bridge.x, bridge.y, tile.size, tile.size)
-            fill(0)
+            
+            image(
+                pakmanSprites,
+                bridge.x, bridge.y,
+                map.tileSize, map.tileSize,
+                Math.floor(bridge.anim) * 32, 288,
+                map.tileSize, map.tileSize
+            )
         }
     }
 }
