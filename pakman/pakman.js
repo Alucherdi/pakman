@@ -13,6 +13,10 @@ class Pakman {
 
         this.anim = 0
 
+        this.canAnimateDead = false
+
+        this.points = 0
+
         this.state = 0
     }
 
@@ -41,9 +45,11 @@ class Pakman {
     }
 
     update(map) {
-        if (Math.floor(this.anim) != 4)
-            this.anim += 0.1
-        else if (this.state != 1) {
+        if (Math.floor(this.anim) != 4) {
+            if (this.state != 1 || (this.state == 1 && this.canAnimateDead)) {
+                this.anim += 0.1
+            }
+        } else if (this.state != 1) {
             this.anim = 0
         }
         
@@ -130,6 +136,7 @@ class Pakman {
                 this.x == dot.x &&
                 this.y == dot.y
             ) {
+                this.points += 0.1
                 map.dots.splice(i, 1)
             }
         }
@@ -167,6 +174,7 @@ class Pakman {
                 this.y < powerUp.y + powerUp.size &&
                 this.y + this.size > powerUp.y
             ) {
+                this.points += 2
                 peanuts.powerUps.splice(i, 1)
             }
         }
@@ -181,7 +189,10 @@ class Pakman {
                 this.y < peanut.y + peanut.size &&
                 this.y + this.size > peanut.y
             ) {
-                if (peanut.type == 0) peanuts.peanuts.splice(i, 1)
+                if (peanut.type == 0) {
+                    this.points += peanut.value
+                    peanuts.peanuts.splice(i, 1)
+                }
                 else {
                     this.die()
                 }
@@ -201,7 +212,7 @@ class Pakman {
             this.x, this.y,
             this.size, this.size,
             Math.floor(this.anim) * 32, 128 + (this.animDirection * 32),
-            this.size, this.size
+            32, 32
         )
     }
 }

@@ -31,7 +31,7 @@ class PeanutGenerator {
             var pos = generationAlternatives[Math.floor(Math.random() * generationAlternatives.length)]
 
             this.peanuts.push(new Peanut(
-                pos.x, pos.y, 1, 0, i 
+                pos.x, pos.y, 1, 0, i
             ))
         }
     }

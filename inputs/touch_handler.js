@@ -10,7 +10,7 @@ class TouchHandler {
     static touchEnded() {
         TouchHandler.end.x = mouseX
         TouchHandler.end.y = mouseY
-
+        
         // if vertical difference is bigger than horizontal difference, then move vertical
         if (Math.abs(TouchHandler.init.y - TouchHandler.end.y) >= 
             Math.abs(TouchHandler.init.x - TouchHandler.end.x)) {

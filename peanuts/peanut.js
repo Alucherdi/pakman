@@ -6,7 +6,14 @@ class Peanut {
         this.id = id
 
         //0: peanut, 1: lemon, 2: chili, 3: peanutLemon, 4: peanutChili
+        // 0: japones, 1: holandes, 2: enchilado, 3: salado
         this.type = type
+        var valueMap = [
+            3, 4, 5, 2
+        ]
+
+        this.value = valueMap[this.id]
+        
 
         this.speed = speed
 
