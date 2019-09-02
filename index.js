@@ -1,4 +1,5 @@
-var map, pakman, wallSprites, pakmanSprites, peanuts, rfont, menu, cam, buttonIcons, titleSprite
+var map, pakman, wallSprites, pakmanSprites, peanuts, rfont, menu, cam, buttonIcons, titleSprite,
+title, touchHandler, gameManager
 
 function setup() {
     createCanvas(windowWidth, windowHeight)    
@@ -7,6 +8,10 @@ function setup() {
     pakman = new Pakman(32, 32, 32)
     peanuts = new PeanutGenerator()
     menu = new Menu()
+
+    title = new Title()
+    touchHandler = new TouchHandler()
+    gameManager = new GameManager()
 }
 
 function preload() {
@@ -26,7 +31,7 @@ function draw() {
     noSmooth()
     noStroke()
 
-    if (GameManager.state == 1) {
+    if (gameManager.state == 1) {
         background(14, 4, 33)
         if (pakman.state != 1) {
             cam.x = (windowWidth / 2) - ((9 * map.tileSize) / 2),
@@ -43,18 +48,16 @@ function draw() {
         
         map.draw(wallSprites)
         peanuts.draw(pakmanSprites)
-        GameManager.drawDeadBackground()
+        gameManager.drawDeadBackground()
 
         pakman.draw(pakmanSprites)
 
         menu.draw(cam, pakman)
-        GameManager.deadCam()
+        gameManager.deadCam()
     } else {
         background(5, 9, 20)
-        Title.draw()
+        title.draw()
     }
-
-    //text(`${Math.floor(mouseX - cam.x)} , ${Math.floor(mouseY - cam.y)}`, mouseX - cam.x, mouseY - cam.y)
 }
 
 function keyPressed() {
@@ -62,10 +65,10 @@ function keyPressed() {
 }
 
 function touchStarted() {
-    TouchHandler.touchStarted()
+    touchHandler.touchStarted()
 
-    if (GameManager.state == 0) {
-        GameManager.state = 1
+    if (gameManager.state == 0) {
+        gameManager.state = 1
     }
 
     if (pakman.state == 1) {
@@ -75,7 +78,7 @@ function touchStarted() {
             mouseY - cam.y > menu.contexts.deadButtons.y &&
             mouseY - cam.y < menu.contexts.deadButtons.y + menu.contexts.deadButtons.h
         ) {
-            GameManager.restart()
+            gameManager.restart()
         }
 
         if (
@@ -90,5 +93,5 @@ function touchStarted() {
 }
 
 function touchEnded() {
-    pakman.nextDirection = TouchHandler.touchEnded()
+    pakman.nextDirection = touchHandler.touchEnded()
 }

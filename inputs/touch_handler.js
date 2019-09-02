@@ -1,24 +1,26 @@
 class TouchHandler {
-    static init = {}
-    static end = {}
-
-    static touchStarted() {
-        TouchHandler.init.x = mouseX
-        TouchHandler.init.y = mouseY
+    constructor() {
+        this.init = {}
+        this.end = {}
     }
 
-    static touchEnded() {
-        TouchHandler.end.x = mouseX
-        TouchHandler.end.y = mouseY
+    touchStarted() {
+        this.init.x = mouseX
+        this.init.y = mouseY
+    }
+
+    touchEnded() {
+        this.end.x = mouseX
+        this.end.y = mouseY
         
         // if vertical difference is bigger than horizontal difference, then move vertical
-        if (Math.abs(TouchHandler.init.y - TouchHandler.end.y) >= 
-            Math.abs(TouchHandler.init.x - TouchHandler.end.x)) {
-            if (TouchHandler.init.y < TouchHandler.end.y) return {x: 0, y: 1}
-            if (TouchHandler.init.y > TouchHandler.end.y) return {x: 0, y: -1}
+        if (Math.abs(this.init.y - this.end.y) >= 
+            Math.abs(this.init.x - this.end.x)) {
+            if (this.init.y < this.end.y) return {x: 0, y: 1}
+            if (this.init.y > this.end.y) return {x: 0, y: -1}
         } else {
-            if (TouchHandler.init.x < TouchHandler.end.x) return {x: 1, y: 0}
-            if (TouchHandler.init.x > TouchHandler.end.x) return {x: -1, y: 0}
+            if (this.init.x < this.end.x) return {x: 1, y: 0}
+            if (this.init.x > this.end.x) return {x: -1, y: 0}
         }
 
         return {x: 0, y: 0}

@@ -1,22 +1,23 @@
 class GameManager {
-    static op = 0
+    constructor() {
+        this.op = 0
+        this.state = 0
+    }
 
-    static state = 0
-
-    static restart() {
+    restart() {
         map = new Map(32)
         pakman = new Pakman(32, 32, 32)
         peanuts = new PeanutGenerator()
         menu = new Menu()
         
-        GameManager.op = 0
+        this.op = 0
 
         cam = {
             w: 1, h: 1
         }
     }
 
-    static deadCam() {
+    deadCam() {
         if (pakman.state == 1) {
             pakman.size = lerp(pakman.size, map.tileSize * 2, 0.1)
             
@@ -38,10 +39,10 @@ class GameManager {
         }
     }
 
-    static drawDeadBackground() {
+    drawDeadBackground() {
         if (pakman.state == 1) {
-            GameManager.op = lerp(GameManager.op, 1, 0.1)
-            fill(`rgba(14, 4, 33, ${GameManager.op})`)
+            this.op = lerp(this.op, 1, 0.1)
+            fill(`rgba(14, 4, 33, ${this.op})`)
             rect(pakman.x - windowWidth / 2, pakman.y - windowHeight / 2, windowWidth * 2, windowHeight * 2)
         }
     }

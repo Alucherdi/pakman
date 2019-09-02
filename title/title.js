@@ -1,17 +1,19 @@
 class Title {
-    static w = 288
-    static h = 288
+    constructor () {
+        this.w = 288
+        this.h = 288
+    }
     
-    static draw() {
+    draw() {
         image(
             titleSprite,
-            windowWidth / 2 - (Title.w / 2),
+            windowWidth / 2 - (this.w / 2),
             10,
-            Title.w,
-            Title.h,
+            this.w,
+            this.h,
             0, 0,
-            Title.w,
-            Title.h
+            this.w,
+            this.h
         )
 
         fill(255)
