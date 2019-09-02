@@ -41,7 +41,7 @@ class Menu {
         text(
             this.contexts.dead.txt,
             pakman.x + pakman.size / 2,
-            pakman.y + pakman.size / 2 + (windowHeight / 5),
+            pakman.y + pakman.size / 2 + (windowHeight / 5)
         )
         textAlign(LEFT)
     }

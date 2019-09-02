@@ -5,7 +5,7 @@ class GameManager {
     }
 
     restart() {
-        map = new Map(32)
+        gameMap = new GameMap(32)
         pakman = new Pakman(32, 32, 32)
         peanuts = new PeanutGenerator()
         menu = new Menu()
@@ -19,7 +19,7 @@ class GameManager {
 
     deadCam() {
         if (pakman.state == 1) {
-            pakman.size = lerp(pakman.size, map.tileSize * 2, 0.1)
+            pakman.size = lerp(pakman.size, gameMap.tileSize * 2, 0.1)
             
             cam.x = lerp(
                 cam.x,
@@ -33,7 +33,7 @@ class GameManager {
                 0.1
             )
 
-            if (Math.round(pakman.size) > map.tileSize * 2 - 0.1) {
+            if (Math.round(pakman.size) > gameMap.tileSize * 2 - 0.1) {
                 pakman.canAnimateDead = true
             }
         }

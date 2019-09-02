@@ -17,7 +17,7 @@ class PeanutGenerator {
         this.peanuts = []
         this.powerUps = []
         
-        var generationAlternatives = map.dots.filter(_ => {
+        var generationAlternatives = gameMap.dots.filter(_ => {
             var a = _.x - pakman.x
             var b = _.y - pakman.y
             var r = Math.sqrt(
@@ -36,20 +36,20 @@ class PeanutGenerator {
         }
     }
 
-    update(map) {
-        if (this.peanuts.length == 0) map.bridges[map.bridges.length - 1].blocked = false
-        else this.addPowerUp(map)
+    update(gameMap) {
+        if (this.peanuts.length == 0) gameMap.bridges[gameMap.bridges.length - 1].blocked = false
+        else this.addPowerUp(gameMap)
         
         for (var peanut of this.peanuts) {
-            peanut.update(map, this.peanuts, this.powerUps)
+            peanut.update(gameMap, this.peanuts, this.powerUps)
         }
     }
 
-    addPowerUp(map) {
+    addPowerUp(gameMap) {
         if (this.powerUpAppearTimer <= 0) {
             this.powerUpAppearTimer = Math.random() * this.powerUpAppearRate.max + this.powerUpAppearRate.min
 
-            var pos = map.dots[Math.floor(Math.random() * map.dots.length)]
+            var pos = gameMap.dots[Math.floor(Math.random() * gameMap.dots.length)]
             this.powerUps.push(new PowerUp(
                 pos.x,
                 pos.y,

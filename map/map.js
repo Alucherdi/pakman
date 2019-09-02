@@ -1,4 +1,4 @@
-class Map {
+class GameMap {
     constructor(tileSize) {
         this.rb = new RecursiveBacktracking()
         this.actualLevel = 1
@@ -22,10 +22,10 @@ class Map {
         this.tiles = []
         this.dots = []
         this.bridges = []
-        this.rawMap = this.rb.genMaze(9, 23)
+        this.rawpakmap = this.rb.genMaze(9, 23)
 
-        for (var y = 0; y < this.rawMap.length; y++) {
-            for (var x = 0; x < this.rawMap[y].length; x++) {
+        for (var y = 0; y < this.rawpakmap.length; y++) {
+            for (var x = 0; x < this.rawpakmap[y].length; x++) {
                 if (this.actualLevel > 1 && y == 0 && x == 1) {
                     this.bridges.push({
                         x: this.genReference.x + (x * this.tileSize),
@@ -36,7 +36,7 @@ class Map {
                     continue
                 }
                 
-                if (this.rawMap[y][x] == 1) {
+                if (this.rawpakmap[y][x] == 1) {
                     this.tiles.push({
                         x: this.genReference.x + (x * this.tileSize),
                         y: this.genReference.y + (y * this.tileSize),
@@ -52,11 +52,11 @@ class Map {
             }
 
             // bridge
-            if (y == this.rawMap.length - 1) {
+            if (y == this.rawpakmap.length - 1) {
                 while (true) {
-                    this.lastExit = Math.floor(Math.random() * this.rawMap[y].length)
-                    if (this.rawMap[y - 1][this.lastExit] == 0) {
-                        this.rawMap[y][this.lastExit] = 0
+                    this.lastExit = Math.floor(Math.random() * this.rawpakmap[y].length)
+                    if (this.rawpakmap[y - 1][this.lastExit] == 0) {
+                        this.rawpakmap[y][this.lastExit] = 0
                         
                         var exitIndex = this.tiles.findIndex((el) => {
                             return el.y == this.genReference.y + (y * this.tileSize) &&
@@ -89,9 +89,9 @@ class Map {
             image(
                 pakmanSprites,
                 flor.x, flor.y,
-                map.tileSize, map.tileSize,
+                gameMap.tileSize, gameMap.tileSize,
                 0, 0,
-                map.tileSize, map.tileSize
+                gameMap.tileSize, gameMap.tileSize
             )
         }
         
@@ -99,9 +99,9 @@ class Map {
             image(
                 pakmanSprites,
                 dot.x, dot.y,
-                map.tileSize, map.tileSize,
+                gameMap.tileSize, gameMap.tileSize,
                 0, 32,
-                map.tileSize, map.tileSize
+                gameMap.tileSize, gameMap.tileSize
             )
         }
         
@@ -125,9 +125,9 @@ class Map {
             image(
                 pakmanSprites,
                 bridge.x, bridge.y,
-                map.tileSize, map.tileSize,
+                gameMap.tileSize, gameMap.tileSize,
                 Math.floor(bridge.anim) * 32, 288,
-                map.tileSize, map.tileSize
+                gameMap.tileSize, gameMap.tileSize
             )
         }
     }

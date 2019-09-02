@@ -1,10 +1,10 @@
-var map, pakman, wallSprites, pakmanSprites, peanuts, rfont, menu, cam, buttonIcons, titleSprite,
+var gameMap, pakman, wallSprites, pakmanSprites, peanuts, rfont, menu, cam, buttonIcons, titleSprite,
 title, touchHandler, gameManager
 
 function setup() {
     createCanvas(windowWidth, windowHeight)    
 
-    map = new Map(32)
+    gameMap = new GameMap(32)
     pakman = new Pakman(32, 32, 32)
     peanuts = new PeanutGenerator()
     menu = new Menu()
@@ -34,19 +34,19 @@ function draw() {
     if (gameManager.state == 1) {
         background(14, 4, 33)
         if (pakman.state != 1) {
-            cam.x = (windowWidth / 2) - ((9 * map.tileSize) / 2),
+            cam.x = (windowWidth / 2) - ((9 * gameMap.tileSize) / 2),
             cam.y = (windowHeight / 2) - pakman.y + (pakman.size / 2)
         }
 
         applyMatrix(cam.w, 0, 0, cam.h, cam.x, cam.y);
 
         fill(0)
-        pakman.update(map)
+        pakman.update(gameMap)
 
         if (pakman.state != 1)
-            peanuts.update(map)
+            peanuts.update(gameMap)
         
-        map.draw(wallSprites)
+        gameMap.draw(wallSprites)
         peanuts.draw(pakmanSprites)
         gameManager.drawDeadBackground()
 

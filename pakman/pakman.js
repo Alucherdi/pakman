@@ -44,7 +44,7 @@ class Pakman {
         }
     }
 
-    update(map) {
+    update(gameMap) {
         if (Math.floor(this.anim) != 4) {
             if (this.state != 1 || (this.state == 1 && this.canAnimateDead)) {
                 this.anim += 0.1
@@ -54,22 +54,22 @@ class Pakman {
         }
         
         if (this.state != 1) {
-            this.handleStates(map)
+            this.handleStates(gameMap)
             this.eatPeanuts()
             this.eatPowerUps()
         }
     }
 
-    handleStates(map) {
+    handleStates(gameMap) {
         switch (this.state) {
             case 0: { // movement free
-                this.move(map)
+                this.move(gameMap)
 
-                if (this.x % map.tileSize == 0 &&
-                    this.y % map.tileSize == 0) {
-                    this.handleBridge(map)
+                if (this.x % gameMap.tileSize == 0 &&
+                    this.y % gameMap.tileSize == 0) {
+                    this.handleBridge(gameMap)
                     this.direction = this.nextDirection
-                    this.eatDots(map)
+                    this.eatDots(gameMap)
                 }
                 break
             }
@@ -80,7 +80,7 @@ class Pakman {
 
             case 2: { // bridge collision
                 this.state = 3
-                map.gen()
+                gameMap.gen()
 
                 peanuts.peanuts = []
                 peanuts.generate()
@@ -88,11 +88,11 @@ class Pakman {
             }
 
             case 3: {
-                this.moveToNextLevel(map)
+                this.moveToNextLevel(gameMap)
 
-                if (this.x % map.tileSize == 0 &&
-                    this.y % map.tileSize == 0) {
-                    this.handleBridge(map)
+                if (this.x % gameMap.tileSize == 0 &&
+                    this.y % gameMap.tileSize == 0) {
+                    this.handleBridge(gameMap)
                 }
 
                 break
@@ -100,23 +100,23 @@ class Pakman {
         }
     }
 
-    moveToNextLevel(map) {
-        this.y = lerp(this.y, map.bridges[map.bridges.length - 2].y, 0.5)
-        this.x = lerp(this.x, map.bridges[map.bridges.length - 2].x, 0.5)
+    moveToNextLevel(gameMap) {
+        this.y = lerp(this.y, gameMap.bridges[gameMap.bridges.length - 2].y, 0.5)
+        this.x = lerp(this.x, gameMap.bridges[gameMap.bridges.length - 2].x, 0.5)
     }
 
-    move(map) {
-        if (this.checkNextPosition(map)) {
+    move(gameMap) {
+        if (this.checkNextPosition(gameMap)) {
             this.x += this.direction.x * this.speed
             this.y += this.direction.y * this.speed
         }
     }
 
-    checkNextPosition(map) {
-        var xCheck = this.x + (this.direction.x * map.tileSize)
-        var yCheck = this.y + (this.direction.y * map.tileSize)
+    checkNextPosition(gameMap) {
+        var xCheck = this.x + (this.direction.x * gameMap.tileSize)
+        var yCheck = this.y + (this.direction.y * gameMap.tileSize)
 
-        for (var tile of map.tiles) {
+        for (var tile of gameMap.tiles) {
             if (
                 xCheck == tile.x &&
                 yCheck == tile.y
@@ -128,23 +128,23 @@ class Pakman {
         return true
     }
 
-    eatDots(map) {
-        for (var i = 0; i < map.dots.length; i++) {
-            var dot = map.dots[i]
+    eatDots(gameMap) {
+        for (var i = 0; i < gameMap.dots.length; i++) {
+            var dot = gameMap.dots[i]
 
             if (
                 this.x == dot.x &&
                 this.y == dot.y
             ) {
                 this.points += 0.1
-                map.dots.splice(i, 1)
+                gameMap.dots.splice(i, 1)
             }
         }
     }
 
-    handleBridge(map) {
-        for (var i = 0; i < map.bridges.length; i++) {
-            var bridge = map.bridges[i]
+    handleBridge(gameMap) {
+        for (var i = 0; i < gameMap.bridges.length; i++) {
+            var bridge = gameMap.bridges[i]
 
             if (
                 this.x == bridge.x &&

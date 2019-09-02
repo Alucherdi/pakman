@@ -8,11 +8,11 @@ class Peanut {
         //0: peanut, 1: lemon, 2: chili, 3: peanutLemon, 4: peanutChili
         // 0: japones, 1: holandes, 2: enchilado, 3: salado
         this.type = type
-        var valueMap = [
+        var valuepakmap = [
             3, 4, 5, 2
         ]
 
-        this.value = valueMap[this.id]
+        this.value = valuepakmap[this.id]
         
 
         this.speed = speed
@@ -25,23 +25,23 @@ class Peanut {
 
         this.anim = 1
 
-        this.changeDirection(map)
+        this.changeDirection(gameMap)
     }
     
-    update(map, peanuts, powerUps) {
+    update(gameMap, peanuts, powerUps) {
         this.eatOthers(powerUps)
         this.changeType()
 
         this.anim = Math.round(this.anim) == 4 ? 1 : this.anim + 0.1
         
-        this.move(map)
-        if (this.x % map.tileSize == 0 &&
-            this.y % map.tileSize == 0) {
+        this.move(gameMap)
+        if (this.x % gameMap.tileSize == 0 &&
+            this.y % gameMap.tileSize == 0) {
             this.direction = this.nextDirection
         }
     }
 
-    changeDirection(map) {
+    changeDirection(gameMap) {
         var directions = [
             {x: 0, y: -1},
             {x: 1, y: 0},
@@ -52,9 +52,9 @@ class Peanut {
         while (true) {
             var dirToChange = Math.floor(Math.random() * 4)
 
-            if (map.tiles.findIndex(_ => 
-                _.x == (directions[dirToChange].x * map.tileSize) + this.x &&
-                _.y == (directions[dirToChange].y * map.tileSize) + this.y) == -1
+            if (gameMap.tiles.findIndex(_ => 
+                _.x == (directions[dirToChange].x * gameMap.tileSize) + this.x &&
+                _.y == (directions[dirToChange].y * gameMap.tileSize) + this.y) == -1
             ) {
                 this.nextDirection = directions[dirToChange]
                 break
@@ -63,12 +63,12 @@ class Peanut {
 
     }
 
-    doMovePosibilityExists(map) {
+    doMovePosibilityExists(gameMap) {
         var posibilities = [
-            map.tiles.find(_ => _.x == this.x && _.y == this.y - map.tileSize) == undefined, // up
-            map.tiles.find(_ => _.x == this.x + map.tileSize && _.y == this.y) == undefined, // right
-            map.tiles.find(_ => _.x == this.x && _.y == this.y + map.tileSize) == undefined, // down
-            map.tiles.find(_ => _.x == this.x - map.tileSize && _.y == this.y) == undefined // left
+            gameMap.tiles.find(_ => _.x == this.x && _.y == this.y - gameMap.tileSize) == undefined, // up
+            gameMap.tiles.find(_ => _.x == this.x + gameMap.tileSize && _.y == this.y) == undefined, // right
+            gameMap.tiles.find(_ => _.x == this.x && _.y == this.y + gameMap.tileSize) == undefined, // down
+            gameMap.tiles.find(_ => _.x == this.x - gameMap.tileSize && _.y == this.y) == undefined // left
         ]
 
         var p = posibilities.filter(Boolean).length
@@ -80,22 +80,22 @@ class Peanut {
             )
     }
     
-    move(map) {
-        if (this.checkNextPosition(map)) {
+    move(gameMap) {
+        if (this.checkNextPosition(gameMap)) {
             this.x += this.direction.x * this.speed
             this.y += this.direction.y * this.speed
         } 
         
-        if (this.doMovePosibilityExists(map)) {
-            this.changeDirection(map)
+        if (this.doMovePosibilityExists(gameMap)) {
+            this.changeDirection(gameMap)
         }
     }
 
-    checkNextPosition(map) {
-        var xCheck = this.x + (this.direction.x * map.tileSize)
-        var yCheck = this.y + (this.direction.y * map.tileSize)
+    checkNextPosition(gameMap) {
+        var xCheck = this.x + (this.direction.x * gameMap.tileSize)
+        var yCheck = this.y + (this.direction.y * gameMap.tileSize)
 
-        for (var tile of map.tiles) {
+        for (var tile of gameMap.tiles) {
             if (
                 xCheck == tile.x &&
                 yCheck == tile.y
@@ -104,7 +104,7 @@ class Peanut {
             }
         }
 
-        for (var bridge of map.bridges) {
+        for (var bridge of gameMap.bridges) {
             if (
                 xCheck == bridge.x &&
                 yCheck == bridge.y
