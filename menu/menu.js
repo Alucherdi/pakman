@@ -25,6 +25,7 @@ class Menu {
     draw(cam, pakman) {
         if (pakman.state != 1) {
             this.showScore(cam)
+            this.showTimer(cam)
         } else if (pakman.canAnimateDead) {
             this.showDeadMessage(cam)
             this.showDeadMenuButtons(cam)
@@ -109,5 +110,21 @@ class Menu {
             this.contexts.score.x - cam.x,
             this.contexts.score.y - cam.y
         )
+    }
+
+    showTimer(cam) {
+        var timer = Math.floor(pakman.timer)
+
+        var txt = `Tienes solo:\n${timer} segundos!`
+        var x = (windowWidth * 0.8) - cam.x
+        var y = 0 - cam.y + 100
+
+        textAlign(CENTER)
+        textFont(rfont)
+        textSize(windowWidth < 1000 ? 16 : 30)
+        text(
+            txt, x, y
+        )
+        textAlign(LEFT)
     }
 }

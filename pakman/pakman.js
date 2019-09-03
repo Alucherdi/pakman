@@ -16,6 +16,9 @@ class Pakman {
         this.canAnimateDead = false
 
         this.points = 0
+        this._timer = 60
+        this._timeToAdd = 45
+        this.timer = this._timer
 
         this.state = 0
     }
@@ -54,9 +57,18 @@ class Pakman {
         }
         
         if (this.state != 1) {
+            this.handleTime()
             this.handleStates(gameMap)
             this.eatPeanuts()
             this.eatPowerUps()
+        }
+    }
+
+    handleTime() {
+        if (this.timer <= 0) {
+            this.die()
+        } else {
+            this.timer -= (deltaTime / 600)
         }
     }
 
@@ -82,6 +94,7 @@ class Pakman {
                 this.state = 3
                 gameMap.gen()
 
+                this.timer += this._timeToAdd
                 peanuts.peanuts = []
                 peanuts.generate()
                 break
