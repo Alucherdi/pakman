@@ -2,19 +2,36 @@ class GameManager {
     constructor() {
         this.op = 0
         this.state = 0
+        this.alreadySentInformation = false
     }
 
     restart() {
-        gameMap = new GameMap(32)
-        pakman = new Pakman(32, 32, 32)
-        peanuts = new PeanutGenerator()
-        menu = new Menu()
-        
-        this.op = 0
+        var m = new GameTransactionController({
+            accessCode: getCookie("ac"),
+            userId:     getCookie("ui"),
+            gameId:     getCookie("gi"),
+            md5:        getCookie("m"),
+        })
 
-        cam = {
-            w: 1, h: 1
-        }
+        m.modifyKoins({
+            koins: -1
+        }).then(e => {
+            if (e.code == "210") {
+                gameMap = new GameMap(32)
+                pakman = new Pakman(32, 32, 32)
+                peanuts = new PeanutGenerator()
+                menu = new Menu()
+                this.alreadySentInformation = false
+                
+                this.op = 0
+
+                cam = {
+                    w: 1, h: 1
+                }
+            } else {
+                alert("No tienes suficientes monedas :(")
+            }
+        })
     }
 
     deadCam() {
@@ -35,8 +52,26 @@ class GameManager {
 
             if (Math.round(pakman.size) > gameMap.tileSize * 2 - 0.1) {
                 pakman.canAnimateDead = true
+
+                if (!this.alreadySentInformation) {
+                    this.sendInfo()
+                    this.alreadySentInformation = true
+                }
             }
         }
+    }
+
+    sendInfo() {
+        var m = new GameTransactionController({
+            accessCode: getCookie("ac"),
+            userId:     getCookie("ui"),
+            gameId:     getCookie("gi"),
+            md5:        getCookie("m"),
+        })
+
+        m.modifyStars({
+            stars: pakman.points
+        }).then(e => console.log(e))
     }
 
     drawDeadBackground() {

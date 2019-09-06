@@ -23,7 +23,26 @@
     </style>
 </head>
 <body>
+    <script>
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+    </script>
     <script src="p5/p5.min.js"></script>
+    <script src="http://142.93.88.25/cdn/game_transaction_controller.js"></script>
+    
     <script src="inputs/touch_handler.js"></script>
     <script src="pakman/pakman.js"></script>
     
