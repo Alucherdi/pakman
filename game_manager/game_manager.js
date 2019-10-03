@@ -6,6 +6,10 @@ class GameManager {
     }
 
     restart() {
+        if (getCookie("ac") == null) { alert("Se detecto una actividad inusual con los datos del usuario"); return }
+        if (getCookie("ui") == null) { alert("Se detecto una actividad inusual con los datos del usuario"); return }
+        if (getCookie("gi") == null) { alert("Se detecto una actividad inusual con los datos del usuario"); return }
+        if (getCookie("m") == null) { alert("Se detecto una actividad inusual con los datos del usuario"); return }
         var m = new GameTransactionController({
             accessCode: getCookie("ac"),
             userId:     getCookie("ui"),
@@ -29,8 +33,10 @@ class GameManager {
                     w: 1, h: 1
                 }
             } else {
-                alert("No tienes suficientes monedas :(")
+                alert("No tienes suficientes monedas")
             }
+        }).catch(e => {
+            alert("Ocurrió un error con la transacción")
         })
     }
 

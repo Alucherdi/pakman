@@ -57,13 +57,13 @@ class Menu {
         stroke(0, 0, 0)
 
         fill(57, 41, 70)
-        rect(
+        /* rect(
             this.contexts.deadButtons.x,
             this.contexts.deadButtons.y,
             this.contexts.deadButtons.w,
             this.contexts.deadButtons.h,
             10
-        )
+        ) */
 
 
         fill(57, 41, 70)
@@ -77,14 +77,14 @@ class Menu {
 
         noStroke(0, 0, 0)
 
-        image(
+        /* image(
             buttonIcons,
             (this.contexts.deadButtons.x + this.contexts.deadButtons.w / 2) - 16,
             (this.contexts.deadButtons.y + this.contexts.deadButtons.h / 2) - 16,
             32, 32,
             0, 0,
             32, 32   
-        )
+        ) */
 
         image(
             buttonIcons,

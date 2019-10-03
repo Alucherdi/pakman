@@ -81,14 +81,14 @@ function touchStarted() {
             gameManager.restart()
         }
 
-        if (
+        /* if (
             mouseX - cam.x > menu.contexts.deadButtons.x &&
             mouseX - cam.x < menu.contexts.deadButtons.x + menu.contexts.deadButtons.w &&
             mouseY - cam.y > menu.contexts.deadButtons.y &&
             mouseY - cam.y < menu.contexts.deadButtons.y + menu.contexts.deadButtons.h
         ) {
-            console.log("salir")
-        }
+            
+        } */
     }
 }
 
